@@ -42,6 +42,7 @@ bindsym $mod+F2  exec python /home/hgeg/.controls/play_next.py
 bindsym $mod+F3  exec bash /home/hgeg/.controls/play_toggle.sh
 
 bindsym $mod+F4  exec bash /home/hgeg/.controls/touchpad.sh
+bindsym $mod+Shift+Escape  exec systemctl suspend
 
 bindsym $mod+F6  exec bash /home/hgeg/.controls/brightness_down.sh
 bindsym $mod+F7  exec bash /home/hgeg/.controls/brightness_up.sh
@@ -50,7 +51,7 @@ bindsym $mod+F8  exec bash /home/hgeg/.controls/sound_mute.sh
 bindsym $mod+F9  exec bash /home/hgeg/.controls/sound_down.sh
 bindsym $mod+F10 exec bash /home/hgeg/.controls/sound_up.sh
 
-bindsym $mod+XF86PowerOff exec sudo shutdown -h now
+bindsym $mod+Shift+XF86PowerOff exec sudo shutdown -h now
 
 
 # change focus
