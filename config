@@ -17,7 +17,7 @@ set $mod Mod4
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
 # chose a FreeType font, such as:
-font pango:DejaVu Sans Mono 10
+font xft:Space Mono 9
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -30,49 +30,43 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
-#
+bindsym $mod+space exec rofi -show drun -modi drun
+bindsym $mod+d exec j4-dmenu-desktop
+bindsym $mod+n exec nautilus
+bindsym $mod+w exec i3-sensible-terminal -e wicd-curses
+
 #first row keys 
-bindsym $mod+F1  exec python /home/hgeg/.controls/play_prev.py
-bindsym $mod+F2  exec python /home/hgeg/.controls/play_next.py
-bindsym $mod+F3  exec bash /home/hgeg/.controls/play_toggle.sh
-
-bindsym $mod+F4  exec bash /home/hgeg/.controls/touchpad.sh
-bindsym $mod+Shift+Escape  exec systemctl suspend
-
-bindsym $mod+F6  exec bash /home/hgeg/.controls/brightness_down.sh
-bindsym $mod+F7  exec bash /home/hgeg/.controls/brightness_up.sh
-
-bindsym $mod+F8  exec bash /home/hgeg/.controls/sound_mute.sh
-bindsym $mod+F9  exec bash /home/hgeg/.controls/sound_down.sh
-bindsym $mod+F10 exec bash /home/hgeg/.controls/sound_up.sh
+bindsym F1                      exec python /home/hgeg/.controls/play_prev.py
+bindsym F2                      exec python /home/hgeg/.controls/play_next.py
+bindsym F3                      exec bash /home/hgeg/.controls/play_toggle.sh
+                                
+bindsym F4                      exec bash /home/hgeg/.controls/touchpad.sh
+                                     
+bindsym F5                      exec bash /home/hgeg/.controls/screenshot_full.sh
+bindsym Shift+F5                exec bash /home/hgeg/.controls/screenshot_area.sh
+                                
+bindsym F6                      exec bash /home/hgeg/.controls/brightness_down.sh
+bindsym Shift+F6                exec bash /home/hgeg/.controls/brightness_zero.sh
+bindsym F7                      exec bash /home/hgeg/.controls/brightness_up.sh
+bindsym Shift+F7                exec bash /home/hgeg/.controls/brightness_full.sh
+                                
+bindsym F8                      exec bash /home/hgeg/.controls/sound_mute.sh
+bindsym F9                      exec bash /home/hgeg/.controls/sound_down.sh
+bindsym F10                     exec bash /home/hgeg/.controls/sound_up.sh
 
 bindsym $mod+Shift+XF86PowerOff exec sudo shutdown -h now
+bindsym $mod+XF86PowerOff       exec systemctl suspend
+bindsym $mod+Escape             exec i3lock -i ~/.i3/background.png -e 
+bindsym $mod+p                  exec /home/hgeg/.controls/reset_network.sh
 
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
@@ -88,15 +82,15 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
+#bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+ bindsym $mod+alt+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -135,20 +129,19 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+# move window (you can also use the mouse for that)
+mode "move" {
+        bindsym Left  move window left  10 px or 10 ppt
+        bindsym Down  move window down  10 px or 10 ppt
+        bindsym Up    move window up    10 px or 10 ppt
+        bindsym Right move window right 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
@@ -160,15 +153,27 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+bindsym $mod+m mode "move"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-        status_command i3status
-}
+# class                 border  backgr. text    indicator child_border
+client.focused          #ffffff #424242 #ffffff #888888   #285577
+client.focused_inactive #222222 #222222 #888888 #484e50   #333333
+client.unfocused        #222222 #222222 #888888 #292d2e   #333333
+client.urgent           #a51824 #bd2c40 #ffffff #900000   #a51824
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
-exec nm-applet
+client.background       #ffffff
+for_window [class=".*"] border pixel 0
+for_window [class=".*"] title_format " <b>%title</b>"
+for_window [class="^sxiv$"] fullscreen
+
 exec dunst
-exec --no-startup-id i3-msg 'workspace 10; exec /usr/bin/spotify'
-exec --no-startup-id i3-msg 'workspace 3; exec /usr/bin/Telegram'
+exec setxkbmap -layout eu
+exec sudo service bluetooth stop
+
+exec --no-startup-id compton --inactive-dim 0.5 --detect-transient
+exec --no-startup-id feh --bg-scale $HOME/.i3/background.jpg
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
 exec --no-startup-id i3-msg 'workspace 2; exec /usr/bin/firefox'
+# exec --no-startup-id i3-msg 'workspace 3; exec /usr/bin/Telegram'
